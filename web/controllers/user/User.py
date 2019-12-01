@@ -13,6 +13,8 @@ route_user = Blueprint('user_page', __name__)
 @route_user.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
+        if g.current_user:
+            return redirect(UrlManager.buildUrl("/"))
         return ops_render("user/login.html")
 
     resp = {'code': 200, 'msg': '登陆成功', 'data': {}}
@@ -47,7 +49,8 @@ def login():
         return jsonify(resp)
 
     response = make_response(json.dumps(resp))
-    response.set_cookie(app.config['AUTH_COOKIE_NAME'], "%s#%s" % (UserService.geneAuthCode(user_info), user_info.uid))
+    response.set_cookie(app.config['AUTH_COOKIE_NAME'], '%s#%s' % (
+        UserService.geneAuthCode(user_info), user_info.uid), 60 * 60 * 24 * 120)  # 保存120天
     return response
 
 
@@ -76,7 +79,7 @@ def edit():
 
     db.session.add(user_info)
     db.session.commit()
-    app.logger.info(resp)
+    # app.logger.info(resp)
     app.logger.info(jsonify(resp))
     return jsonify(resp)
 
@@ -120,8 +123,8 @@ def resetPwd():
     db.session.commit()
 
     response = make_response(resp)
-    response.set_cookie(app.config['AUTH_COOKIE_NAME'],
-                        "%s#%s" % (UserService.geneAuthCode(user_info), user_info.uid))  # 保存120天
+    response.set_cookie(app.config['AUTH_COOKIE_NAME'], '%s#%s' % (
+        UserService.geneAuthCode(user_info), user_info.uid), 60 * 60 * 24 * 120)  # 保存120天
     return response
 
 

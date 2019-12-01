@@ -141,7 +141,8 @@ def set():
 
     return jsonify(resp)
 
-@route_account.route("/ops",methods=["POST"])
+
+@route_account.route("/ops", methods=["POST"])
 def ops():
     resp = {'code': 200, 'msg': '操作成功', 'data': {}}
     req = request.values
@@ -152,7 +153,7 @@ def ops():
         resp['code'] = -1
         resp['msg'] = "请选择要操作的账号"
         return jsonify(resp)
-    if act not in ['remove','recover']:
+    if act not in ['remove', 'recover']:
         resp['code'] = -1
         resp['msg'] = "请选择要操作的账号"
         return jsonify(resp)
