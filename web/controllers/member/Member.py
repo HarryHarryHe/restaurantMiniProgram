@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, request, redirect, jsonify
-from common.libs.Helper import ops_render, iPagination, getCurrentDate
+from common.libs.Helper import ops_render, iPagination, getCurrentDate, getDictFilterField, selectFilterObj
 from common.libs.UrlManager import UrlManager
 from common.models.member.Member import Member
+from common.models.member.MemberComments import MemberComments
+from common.models.food.Food import Food
+from common.models.pay.PayOrder import PayOrder
 from application import app, db
 
 route_member = Blueprint('member_page', __name__)
@@ -49,13 +52,19 @@ def info():
     reback_url = UrlManager.buildUrl("/member/index")
     if id < 1:
         return redirect(reback_url)
+
     info = Member.query.filter_by(id=id).first()
     if not info:
         return redirect(reback_url)
 
-    resp_data['info'] = info
-    resp_data['current'] = index
+    pay_order_list = PayOrder.query.filter_by(member_id=id).filter(PayOrder.status.in_([-8, 1])) \
+        .order_by(PayOrder.id.desc()).all()
+    comment_list = MemberComments.query.filter_by(member_id=id).order_by(MemberComments.id.desc()).all()
 
+    resp_data['info'] = info
+    resp_data['pay_order_list'] = pay_order_list
+    resp_data['comment_list'] = comment_list
+    resp_data['current'] = 'index'
     return ops_render("member/info.html", resp_data)
 
 
@@ -73,7 +82,7 @@ def set():
         if not info:
             return redirect(reback_url)
 
-        if info.status!=1:
+        if info.status != 1:
             return redirect(reback_url)
 
         resp_data['info'] = info
@@ -106,7 +115,56 @@ def set():
 
 @route_member.route("/comment")
 def comment():
-    return ops_render("member/comment.html", {'current': 'index'})
+    resp_data = {}
+    req = request.args
+    page = int(req['p']) if ('p' in req and req['p']) else 1
+    query = MemberComments.query
+
+    page_params = {
+        'total': query.count(),
+        'page_size': app.config['PAGE_SIZE'],
+        'page': page,
+        'display': app.config['PAGE_DISPLAY'],
+        'url': request.full_path.replace("&p={}".format(page), "")
+    }
+
+    pages = iPagination(page_params)
+    offset = (page - 1) * app.config['PAGE_SIZE']
+
+    comment_list = query.order_by(MemberComments.id.desc()).offset(offset).limit(app.config['PAGE_SIZE']).all()
+    data_list = []
+    if comment_list:
+        member_map = getDictFilterField(Member, Member.id, "id", selectFilterObj(comment_list, "member_id"))
+        food_ids = []
+        for item in comment_list:
+            tmp_food_ids = (item.food_ids[1:-1]).split("_")
+            tmp_food_ids = {}.fromkeys(tmp_food_ids).keys()
+            food_ids = food_ids + list(tmp_food_ids)
+
+        food_map = getDictFilterField(Food, Food.id, "id", food_ids)
+
+        for item in comment_list:
+            tmp_member_info = member_map[item.member_id]
+            tmp_foods = []
+            tmp_food_ids = (item.food_ids[1:-1]).split("_")
+            for tmp_food_id in tmp_food_ids:
+                tmp_food_info = food_map[int(tmp_food_id)]
+                tmp_foods.append({
+                    'name': tmp_food_info.name,
+                })
+
+            tmp_data = {
+                "content": item.content,
+                "score": item.score,
+                "member_info": tmp_member_info,
+                "foods": tmp_foods
+            }
+            data_list.append(tmp_data)
+    resp_data['list'] = data_list
+    resp_data['pages'] = pages
+    resp_data['current'] = 'comment'
+
+    return ops_render("member/comment.html", resp_data)
 
 
 @route_member.route("/ops", methods=['POST'])

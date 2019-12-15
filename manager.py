@@ -1,10 +1,14 @@
 from application import app, manager
 from flask_script import Server
 import www
+from jobs.launcher import runJob
 
 # web server 自定义
 manager.add_command("runserver",
                     Server(host='0.0.0.0', port=app.config['SERVER_PORT'], use_debugger=True, use_reloader=True))
+
+# job entrance 入口
+manager.add_command('runjob',runJob())
 
 
 def main():

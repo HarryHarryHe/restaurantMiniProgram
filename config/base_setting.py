@@ -20,8 +20,6 @@ API_IGNORE_URLS = [
     "^/api"
 ]
 
-
-
 PAGE_SIZE = 50
 PAGE_DISPLAY = 10
 
@@ -30,8 +28,11 @@ STATUS_MAPPING = {
     "0": "已删除"
 }
 MINA_APP = {
-    'appid': 'wx45b0f75de4d3f90b',
-    'appkey': '1c66bd2b154c999f05280eb6d1f412cf'
+    'appid': 'wx8af1207ef4665492',
+    'appkey': '2374155613e21f8bf5180ebd9766707a',
+    'paykey': '支付密匙',
+    'mch_id': '商户账号',
+    'callback_url': '/api/order/callback'
 }
 UPLOAD = {
     'ext': ['jpg', 'gif', 'bmp', 'jpeg', 'png'],
@@ -40,4 +41,18 @@ UPLOAD = {
 }
 APP = {
     'domain': 'http://192.168.237.129:8999'
+}
+
+PAY_STATUS_MAPPING = {
+    "1": "已支付",
+    "-8": "待支付",
+    "0": "已关闭"
+}
+PAY_STATUS_DISPLAY_MAPPING = {
+    "0": "订单关闭",
+    "1": "支付成功",
+    "-8": "待支付",
+    "-7": "待发货",
+    "-6": "待确认",
+    "-5": "待评价",
 }

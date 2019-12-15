@@ -1,5 +1,6 @@
 =====================
-##启动
+
+##启动（首先得在虚拟机上加载配置文件）且得有对应的数据库表
 * export ops_config=local|production && python manage.py runserver
 
 ##flask-sqlacodegen
