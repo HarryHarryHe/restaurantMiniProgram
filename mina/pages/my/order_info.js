@@ -16,20 +16,20 @@ Page({
                 yun_price: 0.00,
                 total_price: "85.00",
                 address: {
-                    name: "编程浪子",
+                    name: "海涛",
                     mobile: "12345678901",
-                    address: "上海市浦东新区XX"
+                    address: "广东省广州市从化区"
                 },
                 goods: [
                     {
-                        name: "小鸡炖蘑菇",
-                        price: "85.00",
+                        name: "抹茶蛋糕",
+                        price: "15.00",
                         unit: 1,
                         pic_url: "/images/food.jpg"
                     },
                     {
-                        name: "小鸡炖蘑菇",
-                        price: "85.00",
+                        name: "双层芝士堡",
+                        price: "25.00",
                         unit: 1,
                         pic_url: "/images/food.jpg"
                     }
