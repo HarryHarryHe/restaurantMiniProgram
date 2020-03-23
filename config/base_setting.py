@@ -40,7 +40,7 @@ UPLOAD = {
     'prefix_url': '/static/upload/'
 }
 APP = {
-    'domain': 'http://192.168.237.129:8999'
+    'domain': 'http://192.168.21.128:8999'
 }
 
 PAY_STATUS_MAPPING = {

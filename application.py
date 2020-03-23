@@ -16,7 +16,7 @@ class Application(Flask):
 
 db = SQLAlchemy()
 app = Application(__name__, template_folder=os.getcwd() + "/web/templates/", root_path=os.getcwd())
-# 对app进行封装
+# Package the app
 manager = Manager(app)
 
 '''
@@ -24,7 +24,7 @@ manager = Manager(app)
 '''
 from common.libs.UrlManager import UrlManager
 
-# 将这两个方法注入到模板里边去
+# Inject these two methods into the template
 app.add_template_global(UrlManager.buildStaticUrl, 'buildStaticUrl')
 app.add_template_global(UrlManager.buildUrl, 'buildUrl')
 app.add_template_global(UrlManager.buildImageUrl, 'buildImageUrl')
