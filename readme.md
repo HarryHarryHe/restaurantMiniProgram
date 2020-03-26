@@ -1,10 +1,15 @@
 =====================
+数据库的搭建
+python环境搭建 （可选：创建python3的虚拟环境）
 pip install -r requirements.txt 下载python所依赖的库
 
 首先切换到source /root/bin/activate 的python3虚拟环境
-关闭防火墙 systemctl stop firewalld
+关闭防火墙 systemctl stop firewalld（可选）
 ##启动（首先得在虚拟机上加载配置文件）且得有对应的数据库表
-* export ops_config=local|production && python manage.py runserver
+* export ops_config=local python manage.py runserver  本地运行
+* export ops_config=production uwsgi --ini uwsgi.ini  线上开发
+
+uwsgi 中配置对应端口 ，nginx进行80端口转发到对应配置中的端口
 
 ##flask-sqlacodegen
 

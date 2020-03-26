@@ -20,7 +20,7 @@ Page({
                     return;
                 }
                 that.setData({
-                   user_info:resp.data.info
+                   user_info:resp.data.data
                 });
             }
         });

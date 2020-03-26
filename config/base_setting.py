@@ -28,8 +28,8 @@ STATUS_MAPPING = {
     "0": "已删除"
 }
 MINA_APP = {
-    'appid': 'wx8af1207ef4665492',
-    'appkey': '2374155613e21f8bf5180ebd9766707a',
+    'appid': 'your appid',
+    'appkey': 'your appkey',
     'paykey': '支付密匙',
     'mch_id': '商户账号',
     'callback_url': '/api/order/callback'

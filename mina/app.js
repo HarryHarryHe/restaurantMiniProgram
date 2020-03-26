@@ -6,7 +6,7 @@ App({
         userInfo: null,
         version: "1.0",
         shopName: "下饭Time",
-        domain: "http://192.168.21.128:8999/api"
+        domain: "http://mini.harrymall.cn/api"
     },
     tip: function (params) {
         var that = this;
