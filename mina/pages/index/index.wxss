@@ -76,6 +76,7 @@ page{
   width: 600rpx;
   height: 200rpx;
   margin-left: -300rpx;
+  border-bottom: 1px dotted gray;
   opacity: 0;
   animation: show 2.5s cubic-bezier(0.19, 1, 0.22, 1) .5s forwards;
 }
