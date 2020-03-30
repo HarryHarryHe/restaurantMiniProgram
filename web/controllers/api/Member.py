@@ -114,7 +114,7 @@ def memberShare():
     return jsonify(resp)
 
 
-@route_api.route("/member/info", methods=["POST"])
+@route_api.route("/member/info")
 def memberInfo():
     resp = {'code': 200, 'msg': '操作成功', 'data': {}}
     member_info = g.member_info

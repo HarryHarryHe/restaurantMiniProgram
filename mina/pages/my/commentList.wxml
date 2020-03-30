@@ -1,6 +1,6 @@
 <view class="container">
     <view class="comment-list">
-        <view class="a-order" wx:for="{{list}}" wx:key="{{index}}" wx:for-item="item">
+        <view class="a-order" wx:for="{{list}}" wx:key="index" wx:for-item="item">
             <view class="order-date">
                 <view class="date-box">评价时间：{{item.date}}</view>
             </view>

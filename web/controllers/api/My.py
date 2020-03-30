@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from flask import jsonify, request, g
@@ -98,6 +99,52 @@ def myOrderList():
     #
     # resp['data']['list'] = data_cart_list
 
+    return jsonify(resp)
+
+
+@route_api.route("/my/order/info")
+def myOrderInfo():
+    resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
+    member_info = g.member_info
+    req = request.values
+    order_sn = req['order_sn'] if 'order_sn' in req else ''
+    pay_order_info = PayOrder.query.filter_by(member_id=member_info.id, order_sn=order_sn).first()
+    if not pay_order_info:
+        resp['code'] = -1
+        resp['msg'] = "系统繁忙，请稍后再试~~"
+        return jsonify(resp)
+
+    express_info = {}
+    if pay_order_info.express_info:
+        express_info = json.loads(pay_order_info.express_info)
+
+    tmp_deadline = pay_order_info.created_time + datetime.timedelta(minutes=30)
+    info = {
+        "order_sn": pay_order_info.order_sn,
+        "status": pay_order_info.pay_status,
+        "status_desc": pay_order_info.status_desc,
+        "pay_price": str(pay_order_info.pay_price),
+        "yun_price": str(pay_order_info.yun_price),
+        "total_price": str(pay_order_info.total_price),
+        "address": express_info,
+        "goods": [],
+        "deadline": tmp_deadline.strftime("%Y-%m-%d %H:%M")
+    }
+
+    pay_order_items = PayOrderItem.query.filter_by(pay_order_id=pay_order_info.id).all()
+    if pay_order_items:
+        food_ids = selectFilterObj(pay_order_items, "food_id")
+        food_map = getDictFilterField(Food, Food.id, "id", food_ids)
+        for item in pay_order_items:
+            tmp_food_info = food_map[item.food_id]
+            tmp_data = {
+                "name": tmp_food_info.name,
+                "price": str(item.price),
+                "unit": item.quantity,
+                "pic_url": UrlManager.buildImageUrl(tmp_food_info.main_image),
+            }
+            info['goods'].append(tmp_data)
+    resp['data']['info'] = info
     return jsonify(resp)
 
 

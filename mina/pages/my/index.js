@@ -15,12 +15,13 @@ Page({
             header: app.getRequestHeader(),
             success: function (res) {
                 var resp = res.data;
+                // console.log(resp)
                 if (resp.code != 200) {
                     app.alert({"content": resp.msg});
                     return;
                 }
                 that.setData({
-                   user_info:resp.data.data
+                   user_info:resp.data.info
                 });
             }
         });

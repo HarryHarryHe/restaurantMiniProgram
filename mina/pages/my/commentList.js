@@ -2,16 +2,7 @@ var app = getApp();
 Page({
     data: {
         list: [
-            {
-                date: "2019-12-01 22:30:23",
-                order_number: "20191201223023001",
-                content: "加辣变态辣那种",
-            },
-            {
-                date: "2019-12-02 22:30:23",
-                order_number: "20191202223023001",
-                content: "不要辣",
-            }
+
         ]
     },
     onLoad: function (options) {
