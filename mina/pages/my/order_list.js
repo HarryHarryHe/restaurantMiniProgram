@@ -11,7 +11,7 @@ Page({
     previewImage:function(e){
         wx.previewImage({
             current: e.target.dataset.src, // 当前显示图片的http链接
-            urls: ['http://192.168.21.128:8999/static/upload/myqr/EQCode.jpg'] // 需要预览的图片http链接列表
+            urls: ['https://mini.harrymall.cn/static/upload/myqr/EQCode.jpg'] // 需要预览的图片http链接列表
         })
     },
     statusTap: function (e) {

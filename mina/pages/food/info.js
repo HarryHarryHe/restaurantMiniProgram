@@ -165,35 +165,27 @@ Page({
                     return;
                 }
                 that.setData({
-                    commentList:resp.data.list,
-                    commentCount:resp.data.count,
+                    commentList: resp.data.list,
+                    commentCount: resp.data.count,
                 });
             }
         });
 
     },
-    onShareAppMessage: function (res) {
+    shareAppMessage: function (res) {
+        //当点击分享直接存入数据库分享成功 并没判断是否成功
+        wx.request({
+            url: app.buildUrl("/member/share"),
+            header: app.getRequestHeader(),
+            method: 'POST',
+            data: {
+                url: utils.getCurrentPageUrlWithArgs()
+            }
+        });
         var that = this;
         return {
             title: that.data.info.name,
-            path: '/page/food/info?id=' + that.data.info.id,
-            success: function (res) {
-                //转发成功
-                wx.request({
-                    url: app.buildUrl("/member/share"),
-                    header: app.getRequestHeader(),
-                    method: 'POST',
-                    data: {
-                        url: utils.getCurrentPageUrlWithArgs()
-                    },
-                    success: function (res) {
-
-                    }
-                });
-            },
-            fail: function (res) {
-                //转发失败
-            }
+            imageUrl: '/page/food/info?id=' + that.data.info.id,
         }
     }
 });
