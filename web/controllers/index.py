@@ -50,7 +50,7 @@ def index():
             data['member']['total'] = item.total_member_count
             data['order']['month'] += item.total_order_count
             data['shared']['month'] += item.total_shared_count
-            if getFormatDate(date=item.date+datetime.timedelta(days=1), format="%Y-%m-%d") == date_to:
+            if getFormatDate(date=item.date, format="%Y-%m-%d") == date_to:
                 data['finance']['today'] = item.total_pay_money
                 data['member']['today_new'] = item.total_new_member_count
                 data['order']['today'] = item.total_order_count

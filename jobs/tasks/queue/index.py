@@ -83,7 +83,7 @@ class JobTask():
 
         if pay_order_info.express_info:
             express_info = json.loads(pay_order_info.express_info)
-            keyword3_val += "外卖信息：" + str(express_info['address'])
+            keyword5_val += "配送至：" + str(express_info['address'])
         # 发送模板消息
         target_wechat = WeChatService()
         access_token = target_wechat.getAccessToken()

@@ -172,6 +172,12 @@ Page({
         });
 
     },
+    onShareAppMessage:function(res){
+      return {
+        title: this.data.info.name,
+        imageUrl: this.data.info.main_image,
+      }
+    },
     shareAppMessage: function (res) {
         //当点击分享直接存入数据库分享成功 并没判断是否成功
         wx.request({
@@ -182,10 +188,11 @@ Page({
                 url: utils.getCurrentPageUrlWithArgs()
             }
         });
-        var that = this;
-        return {
-            title: that.data.info.name,
-            imageUrl: '/page/food/info?id=' + that.data.info.id,
-        }
+        // var that = this;
+        // console.log(this.data.info.name);
+        // return {
+        //   title: that.data.info.name,
+        //   imageUrl: that.data.info.main_image,
+        // }
     }
 });
